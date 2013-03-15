@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<!-- 
+
+/*                    
+ *    The X Toolkit (XTK) is licensed under the MIT License:
+ *      http://www.opensource.org/licenses/mit-license.php
+ *
+ * CREDITS: https://raw.github.com/xtk/X/master/LICENSE
+ *
+ * Thanks to Twitter Bootstrap and JQuery!!
+ *
+ */
+
+ -->
+<html>
+<head>
+<title>Brain Puzzle</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+
+<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+
+<link href='css/bootstrap.css' rel='stylesheet' />
+<link href='css/bootstrap-responsive.css' rel='stylesheet' />
+<link type='text/css' rel='stylesheet' href='css/xtheme/jquery.ui.css' />
+<link type='text/css' rel='stylesheet' href='css/jquery.qtip.min.css' />
+<link type='text/css' rel='stylesheet' href='css/jquery.miniColors.css' />
+<link type='text/css' rel='stylesheet' href='css/jquery.sidebar.css' />
+<link type='text/css' rel='stylesheet' href='css/frontpage.css' />
+<link type='text/css' rel='stylesheet' href='css/viewer.css' />
+
+<script type='text/javascript' src='js/jquery.js'></script>
+<script type='text/javascript' src='js/jquery.ui.js'></script>
+<script type='text/javascript' src='js/jquery.ui.slider.js'></script>
+<script type='text/javascript' src='js/jquery.miniColors.js'></script>
+<script type="text/javascript" src="js/jquery.qtip.min.js"></script>
+<script type='text/javascript' src='js/jquery.filestyle.js'></script>
+<script type='text/javascript' src='js/jquery.idTabs.js'></script>
+<script type='text/javascript' src='js/jquery.sidebar.js'></script>
+<script type='text/javascript' src='js/jquery.sidebar.volume.js'></script>
+<script type='text/javascript' src='js/jquery.sidebar.mesh.js'></script>
+<script type='text/javascript' src='js/jquery.sidebar.fibers.js'></script>
+<script type='text/javascript' src='js/jquery.viewer.js'></script>
+<script type='text/javascript' src='js/jquery.frontpage.js'></script>
+<script type='text/javascript' src='js/bootstrap-modal.js'></script>
+<script type='text/javascript' src='js/x.controller.js'></script>
+<script type='text/javascript' src='js/x.examples.js'></script>
+<script type='text/javascript' src='js/x.rendering.js'></script>
+<script type='text/javascript' src='js/xtk.js'></script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15474885-10']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+<body id='body'>
+
+	<!-- The frontpage -->
+	<div id='frontpage' style=''>
+
+		<div id='content' class='container' style=''>
+
+
+			<div id='pagetitle0' class='hero-unit'>
+				<h2>Image Viewer</h2>
+				<p>Instantly view scientific and medical imaging data in 3D using <a href="https://github.com/xtk/X#readme">XTK</a>.</p>
+			</div>
+
+			<div class='well examples'>
+				<h3>Try the examples..</h3>
+				<img id='egvolImage' src='gfx/vol_small.png' class='selectexample' style='cursor:pointer;' /> 
+				<img id='eglabelmapImage' src='gfx/labelmap_small.png' style='cursor:pointer;'/> 
+				<img id='egshapeImage' src='gfx/shape_small.png' style='cursor:pointer;'/> 
+				<img id='egfibersImage' src='gfx/fibers_small.png' style='cursor:pointer;'/> 
+					
+				<div id='egvol'>
+					Single volume. <b>Loading time: *</b> <span
+						class='label label-info viewexample' id='egvollink'>View
+						Example</span>
+				</div>
+				<div id='eglabelmap' style='display: none'>
+					Volume and a colored label map. <b>Loading time: **</b> <span
+						class='label label-info viewexample' id='labelmaplink'>View
+						Example</span>
+				</div>
+				<div id='egshape' style='display: none'>
+					56 shape files for 56 ROIs. <b>Loading time: **</b><span
+						class='label label-info viewexample' id='egshapelink'>View
+						Example</span>
+				</div>
+				<div id='egfibers' style='display: none'>
+					Volume, a colored label map and a TrackVis file (fiber tracks).
+					<br><b>Loading time: ***</b><span class='label label-info viewexample'
+						id='egfiberslink'>View Example</span>
+				</div>
+			</div>
+
+			<div class='footer'>
+				<div class='row' style='margin: auto'>
+				</div>
+				<div id='footnote' style='margin-left:30px'>Supported browsers: Chrome 16+, Firefox 8+.<br />
+				Based on <a href='https://github.com/slicedrop/slicedrop.github.com' target='_blank'>slicedrop</a>. Source code <a href='viewer.tar.gz'>here</a>.</div>
+			</div>
+			
+		</div>
+		<!-- /container -->
+
+	</div>
+
+	<!-- Drop note -->
+	<div id='drop-box-overlay'>
+		<h1>Drop files anywhere...</h1>
+	</div>
+	
+
+	<!-- The viewer -->
+	<div id='viewer' style='display: none;'>
+		<ul class='navigation'>
+			<li id='mesh' class='navigationLi'><div class='menu'>
+					<div class='pin'>
+						<span class='ui-icon ui-icon-pin-s pinicon'></span>
+					</div>
+					<div class='tabbox idTabs' style="height:290px">
+						<div class='caption'>MESH</div>
+
+						<a class='meshtabs selected'>Mesh</a>
+						<div id='mesh1' class='tabContent'>
+							
+							<div id='mouse-mode' style='width: 159px; margin-bottom: 5px;margin-right:10px; float:left'>
+								<div class='mouseLabel' style='float: left;'>Mouse Mode: (shortcut) 
+									<span class="tooltip_left" title="Select how you want the mouse to function. You can also use keyword shortcuts. ">[?]</span><br><br>
+									<input id='rotate' type="radio" name="Dragging" value="Rotate" checked="checked"><label for="rotate" style="color:white;  font-size: 90%;">Rotate View (A)</label>
+									<span class="tooltip_left" title="Drag the mouse to rotate the 3D scene.">[?]</span><br>
+									<input id='drag' type="radio" name="Dragging" value="Drag"><label for="drag" style="color:white; font-size: 90%; ">Select/Move Pieces (S)</label>
+									<span class="tooltip_left" title="Click the mouse to select a piece, and drag the mouse to move the piece. ">[?]</span>
+								</div>
+							</div>
+							
+							<!-- <div id= 'drag-function' style='width: 150px; margin-top: 20px;margin-right:10px; float:left'>
+								<input id = 'drag' type="checkbox" name="Dragging" value="Drag" /><label for="drag" style="color:white;">&nbsp;Drag (shortcut: D)</label>
+							</div> -->
+							
+							<div id='visibility-mesh'
+								style='width: 140px; float: left; margin-top: 2px;'>
+								<div class='menuLabel' style='width: 65px; margin-top: 10px; float: left;'>Show/Hide</div>
+								<div id='meshvisibility' class='eye show-icon'
+									style='margin-left: 6px;margin-top: 2px; float: left;'> <span style='margin-left: 34px;margin-top: 4px;letter-spacing: 1px;font-size: x-small;font-weight: bold; color: #FFFFFF;'>Color</span></div>
+							</div>
+
+							<div id='colorpicker'>
+								<input type='hidden' id='meshColor' class='color-picker black'
+								size='6' value='#0000ff' />
+							</div>
+
+							<div id='menuLabel' class='menuLabel' style='width: 150px; margin-top: 4px; float: left;'>Opacity</div>
+							<div id='opacity-mesh'
+								style='margin-left: 10px; width: 150px; margin-top: 4px; float: left;'></div>
+                            
+							<div id= 'visual-hint' style= 'width: 150px; margin-top: 20px; margin-right:10px; float:left'>
+								<input id = 'vhint' type="checkbox" name="vhint" value="vhint" /><label for="vhint" style="color:white;">&nbsp;Visual Hint</label>
+								<span class="tooltip_left" title="Display the correctly arranged pieces.">[?]</span>
+							</div>
+							
+							<div id= 'textual-hint' style= 'width: 150px; margin-top: 10px; margin-right:10px; float:left'>
+								<input id = 'thint' type="checkbox" name="thint" value="thint" /><label for="thint" style="color:white;">&nbsp;Textual Hint</label>
+								<span class="tooltip_left" title="Show hints when mouse over a piece. ">[?]</span>
+							</div>
+							
+							<div id= 'end-game' style= 'margin-top: 20px; margin-right:10px;float:left'>
+								<input id = 'end-game' type="button" name="end-game" value="End game" /> 
+							</div>
+							
+						</div>
+
+					</div>
+				</div></li>
+		</ul>
+
+
+
+		<!--  The renderers. -->
+
+		 <div id='3d' class='threeDRenderer'></div>
+
+		<div id='blacklogo'>
+			<a href=''><img src='gfx/back.png' /></a>
+		</div> 
+
+	</div>
+	
+	<!-- When enter brain puzzle, enter this page first. By LONI team 2-->
+	<div id='levelSelect' style = 'display: none;'>
+		<div id='content' class='container' style=''>
+
+
+			<div id='pagetitle' class='hero-unit'>
+				<h2>Brain Puzzle</h2>
+				<p>Please select a level or build your own puzzle.</p>
+			</div>
+			<div id='selection' class = 'container' style='font-size: 20px; text-align: center'>
+					<input type="radio" name="level" id='easy' value="EASY"><label for='easy' style='font-size: 20px'>&nbsp;13 pieces</label><br><br>
+					<input type="radio" name="level" id='hard' value="Hard"><label for='hard' style='font-size: 20px'>&nbsp;56 pieces</label><br><br>
+					<input type="radio" name="level" id='custom' value="Custom"><label for='custom' style='font-size: 20px'>&nbsp;Customized</label><br><br>	
+			</div>
+		</div>
+	</div>
+	<div id='submitFile' style = 'display: none; text-align: center'>
+			<div id='submitFilehere' class = 'container' style='font-size: 20px'>
+				Please specify URL paths of pieces, one per line: <br>
+				<textarea name ="paths" id="paths" rows="10" cols="100"> </textarea>
+			</div>
+	</div>
+	<div id='showAns' style = 'display: none; text-align: center'>
+			<div id='showAnswerDiv'  class = 'container' style = 'font-size: 20px'>
+			<input type="checkbox" name="showAnswer" id='showAnswer' value="showAnswer"><label for='showAnswer' style='font-size: 20px'>&nbsp;Show answer</label><br><br>
+		</div>
+	</div>
+		
+	<div id='submitChoice' style = 'display: none; text-align: center'>	
+			<div id='submitChoiceHere' class = 'container' style='font-size: 20px'>
+				<input type="submit" value="Submit" id='submit' style= "width: 80px; height: 60px; font-size: 20px">
+			</div>
+	</div>
+
+			<div class='footer'>
+				<div class='row' style='margin: auto'>
+				</div>
+				<div id='footnote' style='margin-left:30px'>Supported browsers: Chrome 16+, Firefox 8+.<br />
+				Based on <a href="https://github.com/xtk/X">XTK</a> and <a href='https://github.com/slicedrop/slicedrop.github.com' target='_blank'>slicedrop</a>.<br />
+				Tianyuan Qin, Ding Zhao, Mengyi Zhu, Bilal Bhakhrani, Emily Li, Zhizhong Liu
+				</div>
+			</div>
+			
+	<div id="browser-dialog" style='display: none;' title="Incompatible Browser">
+	<p>This website uses WebGL to render 3D images. Currently only Chrome and Firefox browsers are supported. Using other browsers may slow down or crash your operating system.</p>
+	</div>
+
+</body>
+</html>

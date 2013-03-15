@@ -1,0 +1,23 @@
+#blacklogo {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
+.threeDRenderer {
+	background-color: #000;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	right: 20%;
+	left: 0%;
+	bottom: 0%;
+	top: 0%;
+}
+
+
+.xtk-progress-bar {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
